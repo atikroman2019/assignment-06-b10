@@ -40,21 +40,32 @@ const displayPets = (pets) => {
     for (const pet of pets) {
         console.log(pet)
         petsContainer.innerHTML += `
-        <div class="card bg-base-100 w-96 shadow-xl">
-  <figure class="px-10 pt-10">
-    <img
-      src="${pet.image}"
-      alt=""
-      class="rounded-xl" />
+        <div class="w-full mb-6 max-w-[280px] bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 mx-auto">
+  <!-- Image -->
+  <figure class="px-4 pt-4">
+    <img src="${pet.image}" alt="" class="rounded-lg w-full h-40 object-cover" />
   </figure>
-  <div class="card-body">
-    <h2 class="card-title">${pet.pet_name}</h2>
-    <p>Breed: ${pet.breed}</p>
-    <div class="card-actions">
-      <button class="btn btn-primary">Buy Now</button>
+
+  <!-- Content -->
+  <div class="p-4 text-left space-y-1">
+    <h2 class="text-lg font-semibold text-gray-800">${pet.pet_name}</h2>
+    <p class="text-sm text-gray-600">Breed: ${pet.breed}</p>
+    <p class="text-sm text-gray-600">Birth: ${pet.date_of_birth}</p>
+    <p class="text-sm text-gray-600">Gender: ${pet.gender}</p>
+    <p class="text-sm font-bold text-gray-800">Price: $${pet.price}</p>
+
+    <div class="flex items-center flex-wrap gap-2 mt-4">
+      <button class="btn bg-gray-100 hover:bg-gray-200 text-gray-700" onclick="toggleLike(this)">
+        <span class="like-icon">👍</span>
+      </button>
+      <button class="btn text-[#0E7A81]">Adopt</button>
+      <button class="btn  text-[#0E7A81] hover:text-white">
+        Details
+      </button>
     </div>
   </div>
 </div>
+
         `
     }
     
