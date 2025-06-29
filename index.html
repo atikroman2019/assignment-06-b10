@@ -10,6 +10,11 @@
   html {
     scroll-behavior: smooth;
   }
+  .active{
+    background-color: rgba(14, 122, 129, 0.1);
+    border-radius: 120px;
+    border: 1px solid #0E7A81;
+  }
 </style>
 </head>
 <body>
@@ -30,6 +35,7 @@
       </svg>
     </button>
   </div>
+
 
   <!-- Center: Navigation Links -->
   <div id="nav-menu" class="w-full lg:flex lg:items-center lg:w-auto hidden mt-3 lg:mt-0">
@@ -75,6 +81,7 @@
     </header>
 
 <section id="adopt" class="w-11/12 mx-auto py-10">
+  <!-- Header -->
   <div class="max-w-2xl mx-auto px-4 text-center sm:px-6 lg:px-8">
     <h3 class="font-bold text-2xl sm:text-3xl lg:text-4xl mb-4">
       Adopt Your Best Friend
@@ -83,42 +90,87 @@
       It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a.
     </p>
   </div>
-      <div id="category-button" class="w-11/12 mt-10 flex justify-around">
+
+  <!-- Category Buttons -->
+  <div id="category-button" class="w-full  mt-10 grid grid-cols-2 lg:grid-cols-4 justify-center gap-4">
+    <!-- buttons injected dynamically -->
+  </div>
+
+  <!-- Sort and Title -->
+  <div id="best-deals" class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between px-4">
+    <h3 class="font-bold text-xl">Best Deal For You</h3>
+    <button class="btn bg-[#0E7A81] text-white font-bold px-4 py-2 rounded">
+      Sort by Price
+    </button>
+  </div>
+
+  <!-- Pet Cards + Liked Pets -->
+  <div class="flex flex-col lg:flex-row gap-6 mt-6 px-4">
+    <!-- Pet cards -->
+    <div id="pets-container" class="w-full  grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <!-- Cards will appear here -->
     </div>
-          <div id="best-deals" class="mt-10 flex justify-between">
-      <h3 class="font-bold text-xl ml-20">Best Deal For you</h3>
-      <button class="btn bg-[#0E7A81] text-white font-bold mr-32">Sort by Price</button>
 
+    <!-- Liked Pets -->
+    <div id="likedPetsContainer"
+         class="lg:w-1/3 w-full max-h-72 overflow-y-auto flex flex-wrap gap-2 rounded-xl border shadow-md p-3 bg-white">
+      <!-- Liked images -->
     </div>
-    <div>
-      <div id="pets-container" class=" grid lg:grid-cols-3">
-
-      </div>
-      <div id="pets-adopted"></div>
-
-    </div>
-
-  <div class="mt-8">
-    <!-- You can place buttons, images, or cards here if needed -->
   </div>
 </section>
 
-<footer class="bg-black text-white  px-6 py-10">
+  <!-- Details-Modal -->
+
+  <!-- Open the modal using ID.showModal() method -->
+<button hidden class="btn" onclick="my_modal_5.showModal()">open modal</button>
+<dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+  <div class="modal-box">
+    <div class="details-modal">
+
+    </div>
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn">Close</button>
+      </form>
+    </div>
+  </div>
+</dialog>
+
+  <!--Timer Modal -->
+  <div id="timerModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+    <div class="bg-white rounded-lg p-6 w-80 max-w-full text-center shadow-lg">
+      <img class="mx-auto" src="icons8-handshake-48.png" alt="">
+      <h2 class="font-bold text-2xl">Congrats!</h2>
+      <h2 class="text-xl font-semibold mb-4">Adoption process is start for your pet</h2>
+      <div id="countdown" class="text-4xl font-bold text-[#0E7A81] mb-6">3</div>
+      <div id="finalMessage" class="hidden text-green-600 font-bold text-lg mb-6">
+        Pet Adopted!
+      </div>
+      <button id="closeModalBtn" 
+              onclick="closeAdoptModal()" 
+              class="hidden mt-2 px-4 py-2 bg-[#0E7A81] text-white rounded hover:bg-[#0c6066] transition">
+        Close
+      </button>
+    </div>
+  </div>
+
+<footer class="bg-black text-white px-6 py-10">
   <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-    
+
     <!-- Column 1: Logo + Info -->
-    <div class="ml-8">
+    <div class="px-4">
       <div class="flex items-center gap-3 mb-4">
         <img src="images/logo.webp" alt="Logo" class="w-10 h-10">
         <h3 class="font-bold text-lg">Peddy</h3>
       </div>
-      <p class="font-thin text-gray-300 text-sm">
+      <p class="font-thin text-gray-300 text-sm leading-relaxed">
         Location: av. Washington 165, NY CA 54003 <br>
         Phone: +31 85 964 47 25 <br>
         Email: info@yourdomain.com <br>
         Openings hours: 9.00 AM - 5.00 PM
       </p>
-      <div class="flex gap-3 mt-5">
+      <div class="flex gap-4 mt-5">
         <img src="icons8-facebook-48.png" alt="Facebook" class="w-6 h-6">
         <img src="https://cdn.simpleicons.org/x/white" alt="Twitter/X" class="w-5 h-5">
         <img src="icons8-youtube-48.png" alt="YouTube" class="w-6 h-6">
@@ -127,33 +179,37 @@
     </div>
 
     <!-- Column 2: Useful Links -->
-    <div class="ml-8">
-      <h5 class="text-sm font-semibold mb-2">Useful Links</h5>
-      <ul class="text-xs text-gray-300 font-thin space-y-1">
-        <li>Home</li>
-        <li>About Us</li>
-        <li>Animals</li>
-        <li>Foundation</li>
-        <li>Contact</li>
+    <div class="px-4">
+      <h5 class="text-sm font-semibold mb-3">Useful Links</h5>
+      <ul class="text-sm text-gray-300 font-thin space-y-2">
+        <li><a href="#" class="hover:text-white">Home</a></li>
+        <li><a href="#" class="hover:text-white">About Us</a></li>
+        <li><a href="#" class="hover:text-white">Animals</a></li>
+        <li><a href="#" class="hover:text-white">Foundation</a></li>
+        <li><a href="#" class="hover:text-white">Contact</a></li>
       </ul>
     </div>
 
     <!-- Column 3: Subscribe -->
-    <div class="ml-8">
+    <div class="px-4">
       <h3 class="mb-3 text-sm font-semibold">Drop a Message</h3>
-      <input type="text" placeholder="Enter your mail"
-             class="bg-gray-800 text-gray-300 rounded-md p-2 lg:w-2/3 mb-4 focus:outline-none focus:ring-1 focus:ring-cyan-600">
+      <input type="email" placeholder="Enter your mail"
+             class="w-full bg-gray-800 text-gray-300 rounded-md p-2 mb-4 focus:outline-none focus:ring-1 focus:ring-cyan-600">
       <button type="submit"
-              class="bg-[#0E7A81] text-white btn lg:w-2/3 rounded-md p-2 border-none">
+              class="w-full bg-[#0E7A81] text-white rounded-md p-2 hover:bg-[#0c6066] transition">
         Subscribe
       </button>
     </div>
+
   </div>
 </footer>
+
+
 
     <script src="tailwind.config.js"></script>
     <script src="api.js"></script>
     <script src="menu.js"></script>
+    
 </body>
 </html>
 
