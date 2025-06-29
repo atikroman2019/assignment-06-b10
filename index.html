@@ -99,10 +99,14 @@
   <!-- Sort and Title -->
   <div id="best-deals" class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between px-4">
     <h3 class="font-bold text-xl">Best Deal For You</h3>
-    <button class="btn bg-[#0E7A81] text-white font-bold px-4 py-2 rounded">
+    <button onclick="sortByPrice()" class="btn bg-[#0E7A81] text-white font-bold px-4 py-2 rounded">
       Sort by Price
     </button>
   </div>
+<!-- spinner -->
+ <div id="spinner" class="flex justify-center items-center py-10 hidden">
+  <span class="loading loading-spinner loading-lg text-[#0E7A81]"></span>
+</div>
 
   <!-- Pet Cards + Liked Pets -->
   <div class="flex flex-col lg:flex-row gap-6 mt-6 px-4">
@@ -120,22 +124,24 @@
 </section>
 
   <!-- Details-Modal -->
+<button class="btn hidden" onclick="my_modal_4.showModal()">open modal</button>
+<dialog id="my_modal_4" class="modal">
+  <div class="modal-box w-11/12 ">
+<div id="details-modal">
 
-  <!-- Open the modal using ID.showModal() method -->
-<button hidden class="btn" onclick="my_modal_5.showModal()">open modal</button>
-<dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
-  <div class="modal-box">
-    <div class="details-modal">
+</div>
+<div class="modal-action w-full flex justify-center">
+  <form method="dialog" class="w-full">
+ <button style="background-color: rgba(14, 122, 129, 0.2);" class="btn w-full text-white">Cancel</button>
+  </form>
+</div>
 
-    </div>
-    <div class="modal-action">
-      <form method="dialog">
-        <!-- if there is a button in form, it will close the modal -->
-        <button class="btn">Close</button>
-      </form>
-    </div>
   </div>
 </dialog>
+
+
+
+
 
   <!--Timer Modal -->
   <div id="timerModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">

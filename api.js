@@ -1,3 +1,4 @@
+
 // fetch category data
 
 const fetchCategory = () => {
@@ -32,17 +33,29 @@ const removeActiveClass = () => {
 }
 // load category pets when clicked
 
-  function loadCategories(category) {
+function loadCategories(category) {
+  const spinner = document.getElementById('spinner');
+  const petsContainer = document.getElementById('pets-container');
 
+  // Show spinner
+  petsContainer.innerHTML = ''; // Optional: clear old pets
+  spinner.classList.remove('hidden');
+
+  // Delay for 2 seconds
+  setTimeout(() => {
     fetch(`https://openapi.programming-hero.com/api/peddy/category/${category}`)
       .then(res => res.json())
       .then(data => {
-        removeActiveClass()
-        const activeButton = document.getElementById(`btn-${category}`)
-        activeButton.classList.add('active')
-        displayPets(data.data); // Display pets of the selected category
+        removeActiveClass();
+        const activeButton = document.getElementById(`btn-${category}`);
+        activeButton.classList.add('active');
+
+        spinner.classList.add('hidden'); // Hide spinner
+        displayPets(data.data); // Show pets
       });
-  }
+  }, 2000);
+}
+
 
 // load-all-pets
 
@@ -53,10 +66,27 @@ const loadPets = () =>{
     .catch(err => console.error("Failed to fetch pets:", err));
 
 }
+// sort-by-price
+let currentPets = [];
+const sortByPrice = () => {
+  if (!currentPets || currentPets.length === 0) {
+    alert("No pets to sort.");
+    return;
+  }
 
+  const sorted = [...currentPets].sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+  displayPets(sorted);
+};
+
+
+
+// display-all-pets
 const displayPets = (pets) => {
+  currentPets = [...pets];
     const petsContainer = document.getElementById('pets-container')
     petsContainer.innerHTML = ''
+    
+  
 
     if(pets.length === 0) {
       const errorDiv = document.createElement('div')
@@ -84,17 +114,18 @@ const displayPets = (pets) => {
   <!-- Content -->
   <div class="p-4 text-left space-y-1">
     <h2 class="text-lg font-semibold text-gray-800">${pet.pet_name}</h2>
-    <p class="text-sm text-gray-600">Breed: ${pet.breed}</p>
-    <p class="text-sm text-gray-600">Birth: ${pet.date_of_birth}</p>
-    <p class="text-sm text-gray-600">Gender: ${pet.gender}</p>
-    <p class="text-sm font-bold text-gray-800">Price: $${pet.price}</p>
+<p class="text-gray-600 flex gap-1 m-2"><img src="icons8-windows-11-24.png"  /> ${pet.breed?.trim() ? pet.breed : 'No data'}</p>
+<p class="text-gray-600 flex gap-1 m-2"><img src="icons8-calendar-24.png"  /> ${pet.date_of_birth?.trim() ? pet.date_of_birth : 'No data'}</p>
+<p class="text-gray-600 flex gap-1 m-2"><img src="icons8-female-26.png"  /> ${pet.gender?.trim() ? pet.gender : 'No data'}</p>
+<p class="text-gray-600 flex  m-2"><img src="icons8-us-dollar-32.png"/>${pet.price != null && pet.price !== '' ?`${pet.price}$`: 'No data'}</p>
+
 
     <div class="flex items-center flex-wrap gap-2 mt-4">
       <button onclick = " handleLikeClick(event)" class="btn bg-gray-100 hover:bg-gray-200 text-gray-700"">
         <span class="like-icon">👍</span>
       </button>
       <button  onclick="handleAdoptClick(event)"  class="btn adoptBtn text-[#0E7A81] disabled:bg-gray-400 disabled:text-white disabled:cursor-not-allowed">Adopt</button>
-      <button onclick = "loadDetails()"  class="btn text-[#0E7A81]">Details</button>
+      <button onclick = "loadDetails('${pet.petId}')"  class="btn btn-details text-[#0E7A81]">Details</button>
     </div>
   </div>
 </div>
@@ -106,40 +137,54 @@ const displayPets = (pets) => {
     }
 
 
-
-
 }
 // load details
-  const loadDetails = async(id) => {
-        const url = `https://openapi.programming-hero.com/api/peddy/pet/${id}`
-    const res = await fetch(url)
-    const data = await res.json()
-   detailsHandler(data.petData)
-    
-  }
-  // load-details-handler
+  const loadDetails = async(petId) => {
+    const url = `https://openapi.programming-hero.com/api/peddy/pet/${petId}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    detailsHandler(data.petData);
+  };
+  // load-details-handler 
 
-  const detailsHandler = (details) => {
-    console.log(details)
+const detailsHandler = (petData) => {
+  console.log(petData);
+  const detailsModal = document.getElementById('details-modal'); 
+  detailsModal.innerHTML = `
+    <img src="${petData.image}" class="w-[500px] h-full object-cover mx-auto"/>
+    <h2 class="text-lg font-semibold mt-4">${petData.pet_name}</h2>
+    <div class = "flex gap-20">
+      <p class="text-gray-600 flex gap-1 m-2"><img src="icons8-windows-11-24.png"  /> ${petData.breed?.trim() ? petData.breed : 'No data'}</p>
+      <p class="text-gray-600 flex gap-1 m-2"><img src="icons8-calendar-24.png"  /> ${petData.date_of_birth?.trim() ? petData.date_of_birth : 'No data'}</p>
+    </div>
+    <div class = "flex gap-20">
+      <p class="text-gray-600 flex gap-1 m-2"><img src="icons8-female-26.png"  /> ${petData.gender?.trim() ? petData.gender : 'No data'}</p>
+      <p class="text-gray-600 flex  m-2"><img src="icons8-us-dollar-32.png"/>${petData.price != null && petData.price !== '' ?`${petData.price}$`: 'No data'}</p>
+    </div>
+      <p class="text-gray-600 flex gap-1 m-2"><img src="icons8-male-32.png"  /> ${petData.vaccinated_status?.trim() ?petData.vaccinated_status : 'No data'}</p>
+
+      <h2 class="text-lg font-semibold mt-4">Details Information</h2>
+
+      <p class="text-gray-600  m-2"> ${petData.pet_details?.trim() ?petData.pet_details : 'No data'}</p>
 
 
-  }
 
+  `;
+  document.getElementById('my_modal_4').showModal();
+};
 
-
+// add images to another div from cards when clicked like button
   function handleLikeClick(event) {
     let btn = event.target;
     while (btn.tagName !== 'BUTTON') {
       btn = btn.parentElement;
     }
 
-    // Step 2: From the button, access the card container
     let cardDiv = btn;
     while (cardDiv && !cardDiv.classList.contains('max-w-[270px]')) {
       cardDiv = cardDiv.parentElement;
     }
 
-    // Step 3: Get the image inside the card
     const image = cardDiv.querySelector('img');
     const likedContainer = document.getElementById('likedPetsContainer');
 
@@ -150,7 +195,7 @@ const displayPets = (pets) => {
     likedContainer.appendChild(newImg);
   }
 
-// show modal
+// show timer modal
 let clickedBtn = null;
 
    function handleAdoptClick(event) {
@@ -158,27 +203,29 @@ let clickedBtn = null;
       clickedBtn.disabled = true;
 
       const modal = document.getElementById('timerModal');
-      const countdownEl = document.getElementById('countdown');
-      const finalMessage = document.getElementById('finalMessage');
-      const closeModalBtn = document.getElementById('closeModalBtn');
-
       modal.classList.remove('hidden');
       modal.classList.add('flex');
 
-      countdownEl.classList.remove('hidden');
+      const countdownElement = document.getElementById('countdown');
+
+      const finalMessage = document.getElementById('finalMessage');
+      const closeModalBtn = document.getElementById('closeModalBtn');
+
+  
+      countdownElement.classList.remove('hidden');
       finalMessage.classList.add('hidden');
       closeModalBtn.classList.add('hidden');
 
       let timeLeft = 3;
-      countdownEl.textContent = timeLeft;
+      countdownElement.textContent = timeLeft;
 
       const countdown = setInterval(() => {
         timeLeft--;
-        countdownEl.textContent = timeLeft;
+        countdownElement.textContent = timeLeft;
 
         if (timeLeft <= 0) {
           clearInterval(countdown);
-          countdownEl.classList.add('hidden');
+          countdownElement.classList.add('hidden');
           finalMessage.classList.remove('hidden');
           closeModalBtn.classList.remove('hidden');
         }
@@ -190,6 +237,8 @@ let clickedBtn = null;
       modal.classList.add('hidden');
       modal.classList.remove('flex');
     }
+
+
 
 
 
