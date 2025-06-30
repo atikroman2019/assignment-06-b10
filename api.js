@@ -110,14 +110,16 @@ const displayPets = (pets) => {
   <figure class="px-4 pt-4">
     <img src="${pet.image}" alt="" class="rounded-lg w-full h-40 object-cover" />
   </figure>
-
-  <!-- Content -->
-  <div class="p-4 text-left space-y-1">
+  <div class="p-3 text-left space-y-1">
     <h2 class="text-lg font-semibold text-gray-800">${pet.pet_name}</h2>
-<p class="text-gray-600 flex gap-1 m-2"><img src="icons8-windows-11-24.png"  /> ${pet.breed?.trim() ? pet.breed : 'No data'}</p>
-<p class="text-gray-600 flex gap-1 m-2"><img src="icons8-calendar-24.png"  /> ${pet.date_of_birth?.trim() ? pet.date_of_birth : 'No data'}</p>
-<p class="text-gray-600 flex gap-1 m-2"><img src="icons8-female-26.png"  /> ${pet.gender?.trim() ? pet.gender : 'No data'}</p>
-<p class="text-gray-600 flex  m-2"><img src="icons8-us-dollar-32.png"/>${pet.price != null && pet.price !== '' ?`${pet.price}$`: 'No data'}</p>
+      <p class="text-gray-600 flex gap-1 m-2"><img src="icons8-windows-11-24.png" class="mt-1 w-4 h-4" />
+     ${pet.breed?.trim() ? pet.breed : 'No data'}</p>
+      <p class="text-gray-600 flex gap-1 m-2"><img class="mt-1 w-4 h-4" src="icons8-calendar-24.png"  />
+       ${pet.date_of_birth?.trim() ? pet.date_of_birth : 'No data'}</p>
+       <p class="text-gray-600 flex gap-1 m-2"><img class="mt-1 w-4 h-4" src="icons8-female-26.png"  /> 
+        ${pet.gender?.trim() ? pet.gender : 'No data'}</p>
+       <p class="text-gray-600 flex  m-2"><img class="mt-1 w-4 h-4" src="icons8-us-dollar-32.png"/>
+        ${pet.price != null && pet.price !== '' ?`${pet.price}$`: 'No data'}</p>
 
 
     <div class="flex items-center flex-wrap gap-2 mt-4">
@@ -153,15 +155,17 @@ const detailsHandler = (petData) => {
   detailsModal.innerHTML = `
     <img src="${petData.image}" class="w-[500px] h-full object-cover mx-auto"/>
     <h2 class="text-lg font-semibold mt-4">${petData.pet_name}</h2>
-    <div class = "flex gap-20">
-      <p class="text-gray-600 flex gap-1 m-2"><img src="icons8-windows-11-24.png"  /> ${petData.breed?.trim() ? petData.breed : 'No data'}</p>
-      <p class="text-gray-600 flex gap-1 m-2"><img src="icons8-calendar-24.png"  /> ${petData.date_of_birth?.trim() ? petData.date_of_birth : 'No data'}</p>
+    <div class = "grid grid-cols-2">
+     <p class="text-gray-600 flex gap-1 m-2"><img src="icons8-windows-11-24.png" class="mt-1 w-4 h-4" />
+     ${petData.breed?.trim() ? petData.breed : 'No data'}</p>
+      <p class="text-gray-600 flex gap-1 m-2"><img class="mt-1 w-4 h-4" src="icons8-calendar-24.png"  />
+       ${petData.date_of_birth?.trim() ? petData.date_of_birth : 'No data'}</p>
     </div>
-    <div class = "flex gap-20">
-      <p class="text-gray-600 flex gap-1 m-2"><img src="icons8-female-26.png"  /> ${petData.gender?.trim() ? petData.gender : 'No data'}</p>
-      <p class="text-gray-600 flex  m-2"><img src="icons8-us-dollar-32.png"/>${petData.price != null && petData.price !== '' ?`${petData.price}$`: 'No data'}</p>
+    <div class = "grid grid-cols-2 ">
+      <p class="text-gray-600 flex gap-1 m-2"><img class="mt-1 w-4 h-4" src="icons8-female-26.png"  /> ${petData.gender?.trim() ? petData.gender : 'No data'}</p>
+      <p class="text-gray-600 flex  m-2"><img class="mt-1 w-4 h-4" src="icons8-us-dollar-32.png"/>${petData.price != null && petData.price !== '' ?`${petData.price}$`: 'No data'}</p>
     </div>
-      <p class="text-gray-600 flex gap-1 m-2"><img src="icons8-male-32.png"  /> ${petData.vaccinated_status?.trim() ?petData.vaccinated_status : 'No data'}</p>
+      <p class="text-gray-600 flex gap-1 m-2"><img class="mt-1 w-4 h-4" src="icons8-male-32.png"  /> ${petData.vaccinated_status?.trim() ?petData.vaccinated_status : 'No data'}</p>
 
       <h2 class="text-lg font-semibold mt-4">Details Information</h2>
 
@@ -174,21 +178,22 @@ const detailsHandler = (petData) => {
 };
 
 // add images to another div from cards when clicked like button
+
   function handleLikeClick(event) {
     let btn = event.target;
     while (btn.tagName !== 'BUTTON') {
       btn = btn.parentElement;
     }
 
-    let cardDiv = btn;
-    while (cardDiv && !cardDiv.classList.contains('max-w-[270px]')) {
+    let cardDiv = btn
+    let width = 'max-w-[270px]'
+    while (cardDiv && !cardDiv.classList.contains(width)) {
       cardDiv = cardDiv.parentElement;
     }
 
     const image = cardDiv.querySelector('img');
     const likedContainer = document.getElementById('likedPetsContainer');
 
-    // Step 5: Create a copy of the image and append
     const newImg = document.createElement('img');
     newImg.src = image.src;
     newImg.className = 'w-24 h-24 object-cover rounded-md border';
